@@ -30,7 +30,6 @@ Public Sub GetUpload(ByVal Data, Optional ByVal MaxSize = 0, Optional ByVal Type
  Dim b As Long
  Dim c As Long
  Dim d As Long
- Dim fID As Integer
  Dim nName As String
  Dim nFileTemp As String
  Dim nFilePath As String
@@ -87,19 +86,11 @@ Public Sub GetUpload(ByVal Data, Optional ByVal MaxSize = 0, Optional ByVal Type
   ElseIf IsTypeAllowed(GetFileExt(nFilePath), CStr(TypeLimit)) Then
    nFileSize = CLng(LenB(StrTemp1))
    If nFileSize > 0 Then
-    nFileTemp = NewTempFile
-    file_Temps.Add nFileTemp
     file_Sizes.Add nFileSize
     file_Types.Add nFileType
     file_Paths.Add nFilePath
     file_Names.Add nName
-    
-    fID = FreeFile
-    Open nFileTemp For Binary As fID
-     For d = 1 To LenB(StrTemp1)
-      Put fID, , AscB(MidB(StrTemp1, d, 1))
-     Next
-    Close fID
+    file_data = file_data & StrTemp1
    End If
   Else
    error_Number = 7
@@ -250,16 +241,6 @@ Private Function URLDecode(Expression) As String
  URLDecode = CStr(strResult)
 End Function
 
-Private Function NewTempFile() As String
- If Len(Dir(App.Path & "\temp", vbDirectory)) = 0 Then MkDir App.Path & "\temp"
- Dim a As Integer
- a = 0
- Do While Len(Dir(App.Path & "\temp\" & CStr(a) & ".tmp")) > 0
-  a = a + 1
- Loop
- NewTempFile = App.Path & "\temp\" & CStr(a) & ".tmp"
-End Function
-
 Private Function UStr2BStr(UStr)
  Dim lngLoop
  Dim strChar
@@ -310,27 +291,20 @@ End Function
 
 Private Sub Class_Initialize()
  Set file_Names = New Collection
- Set file_Temps = New Collection
  Set file_Paths = New Collection
  Set file_Types = New Collection
  Set file_Sizes = New Collection
  Set form_Names = New Collection
  Set form_Values = New Collection
+ file_data = ""
  error_Number = 0
  error_Description = ""
  error_Source = ""
 End Sub
 
 Private Sub Class_Terminate()
- Dim a As Integer
- Dim b As Integer
- a = file_Temps.Count
- For b = 1 To a
-  Kill CStr(file_Temps.Item(b))
- Next
- 
+ file_data = ""
  Set file_Names = Nothing
- Set file_Temps = Nothing
  Set file_Paths = Nothing
  Set file_Types = Nothing
  Set file_Sizes = Nothing

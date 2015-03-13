@@ -14,8 +14,8 @@ Attribute VB_Exposed = True
 Private m_ContentType As String
 Private m_FileName As String
 Private m_Name As String
-Private m_TempFile As String
 Private m_FileSize As Long
+Private m_FileStart As Single
 Private m_Index As Integer
 
 Public Property Get FileIndex() As Integer
@@ -43,21 +43,16 @@ Public Property Get ContentType() As String
 End Property
 
 Public Property Get FileData()
- Dim fTemp As Byte
- Dim fID As Integer
- fID = FreeFile
- Open m_TempFile For Binary As fID
-  Do While Not EOF(fID)
-   Get fID, , fTemp
-   FileData = FileData & ChrB(fTemp)
-  Loop
- Close fID
+ FileData = MidB(file_data, m_FileStart, m_FileSize)
 End Property
 
 Public Sub SaveAs(strFileName, Optional OverWrite = False)
  Dim f As String
  Dim fDir As String
  Dim a As Integer
+ Dim fID As Integer
+ Dim StrTemp As Variant
+ Dim b As Long
  f = CStr(Trim(strFileName))
  f = Replace(f, "/", "\")
  a = InStr(4, f, "\", vbBinaryCompare)
@@ -80,16 +75,26 @@ Public Sub SaveAs(strFileName, Optional OverWrite = False)
    Exit Sub
   End If
  End If
- FileCopy m_TempFile, f
+ StrTemp = MidB(file_data, m_FileStart, m_FileSize)
+ fID = FreeFile
+ Open f For Binary As fID
+  For b = 1 To LenB(StrTemp)
+   Put fID, , AscB(MidB(StrTemp, b, 1))
+  Next
+ Close fID
 End Sub
 
 Public Sub GetFileIndex(n As Integer)
+ Dim nn As Integer
  If n = m_Index And m_FileSize > 0 Then Exit Sub
  m_ContentType = CStr(file_Types.Item(n))
  m_Name = CStr(file_Names.Item(n))
  m_FileName = CStr(file_Paths.Item(n))
  m_FileSize = CLng(file_Sizes.Item(n))
- m_TempFile = CStr(file_Temps.Item(n))
+ m_FileStart = 1
+ For nn = 1 To n - 1
+  m_FileStart = m_FileStart + file_Sizes.Item(nn)
+ Next
  m_Index = n
 End Sub
 
