@@ -11,9 +11,6 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = True
 Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = True
-Private uFile As clsFile
-Private uForm As clsForm
-
 'Private aspScriptingContext As ScriptingContext
 'Private aspResponse As Response
 'Public Sub OnStartPage(PassedScriptingContext As ScriptingContext)
@@ -23,21 +20,15 @@ Private uForm As clsForm
 
 Public Sub GetUpload(ByVal Data, Optional ByVal MaxSize = 0, Optional ByVal TypeLimit = "")
  Dim DivideLine, StrTemp1, StrTemp2, StrTemp3, StrTemp4, Str1, Str2
- Dim lStr1 As Long
- Dim lStr2 As Long
+ Dim lStr1 As Long, lStr2 As Long
+ Dim a As Long, b As Long, c As Long, d As Long
  Dim DataSize As Long
- Dim a As Long
- Dim b As Long
- Dim c As Long
- Dim d As Long
  Dim nName As String
- Dim nFileTemp As String
  Dim nFilePath As String
  Dim nFileType As String
- Dim nFileSize As Long
  
- Str1 = UStr2BStr(vbCrLf)
- Str2 = UStr2BStr("--")
+ Str1 = Str2Bin(vbCrLf)
+ Str2 = Str2Bin("--")
  lStr1 = LenB(Str1)
  lStr2 = LenB(Str2)
  DataSize = LenB(Data)
@@ -45,8 +36,8 @@ Public Sub GetUpload(ByVal Data, Optional ByVal MaxSize = 0, Optional ByVal Type
  If DataSize > a And a > 256 Then
   Data = LeftB(Data, a)
   DataSize = a
-  error_Number = 6
-  error_Description = "超过限定的 " & DataSize & " 字节"
+  error_Number = 4
+  error_Description = "超过限定的字节"
   error_Source = "MyASPUploader.Upload::GetUpload()"
  End If
  DivideLine = Str1 & LeftB(Data, InStrB(1, Data, Str1, vbBinaryCompare) - 1) & Str1
@@ -56,7 +47,7 @@ Public Sub GetUpload(ByVal Data, Optional ByVal MaxSize = 0, Optional ByVal Type
  b = InStrB(a + 1, Data, DivideLine, vbBinaryCompare) - 1 - a
  Do While b > 0
   StrTemp1 = MidB(Data, a + 1, b)
-  StrTemp2 = BStr2UStr(LeftB(StrTemp1, InStrB(1, StrTemp1, Str1 & Str1, vbBinaryCompare) - 1))
+  StrTemp2 = Bin2Str(LeftB(StrTemp1, InStrB(1, StrTemp1, Str1 & Str1, vbBinaryCompare) - 1))
   StrTemp1 = RightB(StrTemp1, LenB(StrTemp1) - InStrB(1, StrTemp1, Str1 & Str1, vbBinaryCompare) - lStr1 - lStr1 + 1)
   StrTemp2 = Split(StrTemp2, vbCrLf)
   For Each StrTemp3 In StrTemp2
@@ -77,23 +68,12 @@ Public Sub GetUpload(ByVal Data, Optional ByVal MaxSize = 0, Optional ByVal Type
     Next
    End If
   Next
-  If Len(nFilePath) = 0 Then
-   nFileSize = CLng(LenB(StrTemp1))
-   If nFileSize > 0 Then
-    form_Names.Add nName
-    form_Values.Add CStr(BStr2UStr(StrTemp1))
-   End If
+  If nFilePath = "" Then
+   If StrTemp1 <> "" Then AddFormObj nName, CStr(Bin2Str(StrTemp1))
   ElseIf IsTypeAllowed(GetFileExt(nFilePath), CStr(TypeLimit)) Then
-   nFileSize = CLng(LenB(StrTemp1))
-   If nFileSize > 0 Then
-    file_Sizes.Add nFileSize
-    file_Types.Add nFileType
-    file_Paths.Add nFilePath
-    file_Names.Add nName
-    file_data = file_data & StrTemp1
-   End If
+   If StrTemp1 <> "" Then AddFileObj nName, nFilePath, nFileType, StrTemp1
   Else
-   error_Number = 7
+   error_Number = 5
    error_Description = "存在限定之外的文件类型"
    error_Source = "MyASPUploader.Upload::GetUpload()"
   End If
@@ -102,8 +82,8 @@ Public Sub GetUpload(ByVal Data, Optional ByVal MaxSize = 0, Optional ByVal Type
   a = a + b + c
   b = InStrB(a + 1, Data, DivideLine, vbBinaryCompare) - 1 - a
  Loop
- If file_Names.Count = 0 And error_Number = 0 Then
-  error_Number = 5
+ If intFileCount = 0 And error_Number = 0 Then
+  error_Number = 3
   error_Description = "文件个数为0"
   error_Source = "MyASPUploader.Upload::GetUpload()"
  End If
@@ -121,193 +101,58 @@ Public Property Get ErrorSource() As String
  ErrorSource = error_Source
 End Property
 
-Public Property Get GetFile(ByVal n, Optional ByVal mode = 0) As clsFile
- Dim a As Integer
- Dim b As Integer
- b = file_Names.Count
- If b = 0 Then Err.Raise 1, "MyASPUploader.Upload::GetFile()", "文件个数为0，无法获取"
- Select Case CInt(mode)
-  Case 0
-   For a = 1 To b
-    If LCase(n) = LCase(file_Names.Item(a)) Then Exit For
-   Next
-  Case Else
-   a = CInt(n) + 1
- End Select
- If a >= 1 And a <= b Then
-  If uFile Is Nothing Then Set uFile = New clsFile
-  uFile.GetFileIndex a
-  Set GetFile = uFile
- Else
-  Err.Raise 2, "MyASPUploader.Upload::GetFile()", "找不到此文件，无法获取"
- End If
+Public Property Get GetFileByIndex(ByVal n) As clsFile
+ Set GetFileByIndex = FileArray(n)
 End Property
 
-Public Property Get GetForm(ByVal n, Optional ByVal mode = 0) As clsForm
- Dim a As Integer
- Dim b As Integer
- b = form_Names.Count
- If b = 0 Then Err.Raise 3, "MyASPUploader.Upload::GetForm()", "表单个数为0，无法获取"
- Select Case CInt(mode)
-  Case 0
-   For a = 1 To b
-    If LCase(n) = LCase(CStr(form_Names.Item(a))) Then Exit For
-   Next
-  Case Else
-   a = CInt(n) + 1
- End Select
- If a >= 1 And a <= b Then
-  If uForm Is Nothing Then Set uForm = New clsForm
-  uForm.GetFormIndex a
-  Set GetForm = uForm
- Else
-  Err.Raise 4, "MyASPUploader.Upload::GetForm()", "找不到此表单，无法获取"
- End If
+Public Property Get GetFormByIndex(ByVal n) As clsForm
+ Set GetFormByIndex = FormArray(n)
+End Property
+
+Public Property Get GetFileByName(ByVal s) As clsFile
+ Dim i As Integer
+ For i = 1 To intFileCount
+  If UCase(s) = UCase(FileArray(i).FormName) Then
+   Set GetFileByName = FileArray(i)
+   Exit Property
+  End If
+ Next
+ error_Number = 1
+ error_Source = "MyASPUploader.Upload::GetFileByName()"
+ error_Description = "找不到此文件，无法获取"
+ Err.Raise error_Number, error_Source, error_Description
+End Property
+
+Public Property Get GetFormByName(ByVal s) As clsForm
+ Dim i As Integer
+ For i = 1 To intFormCount
+  If UCase(s) = UCase(FormArray(i).FormName) Then
+   Set GetFormByName = FormArray(i)
+   Exit Property
+  End If
+ Next
+ error_Number = 2
+ error_Source = "MyASPUploader.Upload::GetFormByName()"
+ error_Description = "找不到此表单，无法获取"
+ Err.Raise error_Number, error_Source, error_Description
 End Property
 
 Public Property Get FileCount() As Integer
- FileCount = file_Names.Count
+ FileCount = intFileCount
 End Property
 
 Public Property Get FormCount() As Integer
- FormCount = form_Names.Count
+ FormCount = intFormCount
 End Property
 
-Private Function ConvertToByte(strSize As String) As Long
- Dim a As String
- ConvertToByte = 0
- strSize = LCase(Trim(strSize))
- If IsNumeric(strSize) Then
-  ConvertToByte = CLng(strSize)
- ElseIf Len(strSize) > 2 Then
-  a = Left(strSize, Len(strSize) - 2)
-  Select Case Right(strSize, 2)
-   Case "kb"
-    If IsNumeric(a) Then ConvertToByte = CLng(CSng(a) * 1024)
-   Case "mb"
-    If IsNumeric(a) Then ConvertToByte = CLng(CSng(a) * 1024 ^ 2)
-   Case "gb"
-    If IsNumeric(a) Then ConvertToByte = CLng(CSng(a) * 1024 ^ 3)
-   Case Else
-    If Len(strSize) > 4 Then
-     If Right(strSize, 4) = "byte" Then
-      a = Left(strSize, Len(strSize) - 4)
-      If IsNumeric(a) Then ConvertToByte = CLng(a)
-     End If
-    End If
-  End Select
- End If
-End Function
-
-Private Function IsTypeAllowed(TheType As String, AllTypes As String) As Boolean
- Dim a, b
- Dim aTypes As String
- aTypes = Trim(LCase(AllTypes))
- If Len(aTypes) > 0 Then
-  aTypes = Replace(aTypes, ",", ";")
-  aTypes = Replace(aTypes, "|", ";")
-  aTypes = Replace(aTypes, "\", ";")
-  aTypes = Replace(aTypes, "/", ";")
-  a = Split(aTypes, ";")
-  IsTypeAllowed = False
-  For Each b In a
-   If Len(b) > 0 Then
-    If CStr(b) = LCase(TheType) Then
-     IsTypeAllowed = True
-     Exit Function
-    End If
-   End If
-  Next
- Else
-  IsTypeAllowed = True
- End If
-End Function
-
-Private Function URLDecode(Expression) As String
- Dim strSource, StrTemp, strResult
- Dim lngPos
- strSource = Replace(Expression, "+", " ")
- For lngPos = 1 To Len(strSource)
-  StrTemp = Mid(strSource, lngPos, 1)
-  If StrTemp = "%" Then
-   If lngPos + 2 < Len(strSource) Then
-    strResult = strResult & Chr(CInt("&H" & Mid(strSource, lngPos + 1, 2)))
-    lngPos = lngPos + 2
-   End If
-  Else
-   strResult = strResult & StrTemp
-  End If
- Next
- URLDecode = CStr(strResult)
-End Function
-
-Private Function UStr2BStr(UStr)
- Dim lngLoop
- Dim strChar
- UStr2BStr = ""
- For lngLoop = 1 To Len(UStr)
-  strChar = Mid(UStr, lngLoop, 1)
-  UStr2BStr = UStr2BStr & ChrB(AscB(strChar))
- Next
-End Function
-
-Private Function BStr2UStr(BStr)
- Dim lngLoop
- BStr2UStr = ""
- BStr2UStr = BtoS(BStr)
-End Function
-
-Private Function BtoS(varstr)
- Dim str2bin
- Dim varchar
- Dim varasc
- Dim varlow, varhigh
- Dim i
- str2bin = ""
- ' 测试
- skipflag = 0
- strC = ""
- binstr = varstr
- If Not IsNull(binstr) Then
-  lnglen = LenB(binstr)
-  For i = 1 To lnglen
-   If skipflag = 0 Then
-    tmpBin = MidB(binstr, i, 1)
-    '判断是否中文的字符
-    If AscB(tmpBin) > 127 Then
-     'AscW会把二进制的中文双字节字符高位和低位反转，所以要先把中文的高低位反转
-     strC = strC & Chr(AscW(MidB(binstr, i + 1, 1) & tmpBin))
-     skipflag = 1
-    Else
-     strC = strC & Chr(AscB(tmpBin))
-    End If
-   Else
-    skipflag = 0
-   End If
-  Next
- End If
- BtoS = strC
-End Function
-
 Private Sub Class_Initialize()
- Set file_Names = New Collection
- Set file_Paths = New Collection
- Set file_Types = New Collection
- Set file_Sizes = New Collection
- Set form_Names = New Collection
- Set form_Values = New Collection
- file_data = ""
+ intFileCount = 0
+ intFormCount = 0
  error_Number = 0
  error_Description = ""
  error_Source = ""
 End Sub
 
-Private Sub Class_Terminate()
- file_data = ""
- Set file_Names = Nothing
- Set file_Paths = Nothing
- Set file_Types = Nothing
- Set file_Sizes = Nothing
- Set form_Names = Nothing
- Set form_Values = Nothing
-End Sub
+'Private Sub Class_Terminate()
+
+'End Sub

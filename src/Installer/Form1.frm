@@ -1,7 +1,7 @@
 VERSION 5.00
 Begin VB.Form Form1 
    BorderStyle     =   1  'Fixed Single
-   Caption         =   "MyASPUploader Ver1.2 Installer"
+   Caption         =   "MyASPUploader Ver1.3 Installer"
    ClientHeight    =   1185
    ClientLeft      =   45
    ClientTop       =   330

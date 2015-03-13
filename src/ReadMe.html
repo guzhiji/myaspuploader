@@ -7,7 +7,7 @@
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 24pt;
 	font-weight: bold;
-	color: #6C77CC; 
+	color: #FF7D4B; 
 }
 .title2 {
 	font-family: "Courier New", Courier, monospace;
@@ -20,6 +20,7 @@
 	font-size: 9pt;
 	font-style: italic;
 	font-weight: bold;
+	color: #CECE00;
 }
 a:link
 {
@@ -73,12 +74,12 @@ td{
 </style>
 </head>
 <body topmargin=0 leftmargin=0>
-<table cellspacing=0 cellpadding=0 width=100% border=0 bgcolor="#0099FF">
+<table cellspacing=0 cellpadding=0 width="100%" border=0 bgcolor="#0099FF">
  <tr>
-  <td height="17" align=center bgcolor="#000099" class="STYLE1">(C)2007 Gu Zhiji Studio</td>
+  <td height="17" align=center bgcolor="#000099" class="STYLE1">(C)2008 Gu Zhiji Studio</td>
  </tr>
  <tr bordercolor="#666666" bgcolor="#0099FF">
-  <td height="50" bgcolor="#0099FF"><div align="center"><span class="title1">MyASPUploader</span> <span class="title2">Ver 1.2</span></div></td>
+  <td height="50" bgcolor="#0099FF"><div align="center"><span class="title1">MyASPUploader</span> <span class="title2">Ver 1.3</span></div></td>
  </tr>
  <tr><td height="5" bgcolor="0000CC"></td></tr>
  <tr>
@@ -87,82 +88,82 @@ td{
  <tr>
   <td align=center>
 
-<table width="100%" border=1 cellpadding=0 cellspacing=0 bordercolor="#000099">
+<table width="100%" border=1 cellpadding=6 cellspacing=0 bordercolor="#000099">
  <tr>
-  <td width="19%" height="24"><a href="#GetUpload">获取上传数据</a></td>
-  <td width="81%">Obj.<font class="a1">GetUpload Data [, MaxSize[, FileTypeLimit]]</font></td>
+  <td width="25%" height="24"><div align="right"><a href="#GetUpload">获取上传数据</a></div></td>
+  <td width="75%">[UploadObj].<font class="a1">GetUpload Data [, MaxSize[, FileTypeLimit]]</font></td>
  </tr>
  <tr>
-  <td height="24">收到文件的个数</td>
-  <td>Obj.<font class="a1">FileCount</font></td>
+  <td height="24"><div align="right">收到文件的个数</div></td>
+  <td>[UploadObj].<font class="a1">FileCount</font></td>
  </tr>
  <tr>
-  <td height="24">收到表单的个数</td>
-  <td>Obj.<font class="a1">FormCount</font></td>
+  <td height="24"><div align="right"><a href="#GetByIndex">通过序列号获取某个文件</a></div></td>
+  <td>[UploadObj].<font class="a1">GetFileByIndex(n)</font></td>
  </tr>
  <tr>
-  <td height="24"><a href="#ErrorList">错误号</a></td>
-  <td>Obj.<font class="a1">ErrorNumber</font></td>
+  <td height="24"><div align="right">通过表单名称获取某个文件</div></td>
+  <td>[UploadObj].<font class="a1">GetFileByName(s)</font></td>
  </tr>
  <tr>
-  <td height="24"><a href="#ErrorList">错误来源</a></td>
-  <td>Obj.<font class="a1">ErrorSource</font></td>
+  <td height="24"><div align="right">文件表单的名称</div></td>
+  <td>[FileObj].<font class="a1">FormName</font></td>
  </tr>
  <tr>
-  <td height="24"><a href="#ErrorList">错误描述</a></td>
-  <td>Obj.<font class="a1">ErrorDescription</font></td>
+  <td height="24"><div align="right">文件的类型</div></td>
+  <td>[FileObj].<font class="a1">ContentType</font></td>
  </tr>
  <tr>
-  <td height="24"><a href="#GetFile">获取某个文件</a></td>
-  <td>Obj.<font class="a1">GetFile(n [, mode])</font></td>
+  <td height="24"><div align="right">文件的完整名称</div></td>
+  <td>[FileObj].<font class="a1">FileName</font></td>
  </tr>
  <tr>
-  <td height="24">文件表单的名称</td>
-  <td>Obj.GetFile(n [, mode]).<font class="a1">FormName</font></td>
+  <td height="24"><div align="right">文件的拓展名</div></td>
+  <td>[FileObj].<font class="a1">FileExt</font></td>
  </tr>
  <tr>
-  <td height="24">文件的类型</td>
-  <td>Obj.GetFile(n [, mode]).<font class="a1">ContentType</font></td>
+  <td height="24"><div align="right">文件的大小</div></td>
+  <td>[FileObj].<font class="a1">FileSize</font></td>
  </tr>
  <tr>
-  <td height="24">文件的序列号</td>
-  <td>Obj.GetFile(n [, mode]).<font class="a1">FileIndex</font></td>
+  <td height="24"><div align="right"><a href="#FileData">文件的数据</a></div></td>
+  <td>[FileObj].<font class="a1">FileData</font></td>
  </tr>
  <tr>
-  <td height="24">文件的完整名称</td>
-  <td>Obj.GetFile(n [, mode]).<font class="a1">FileName</font></td>
+  <td height="24"><div align="right"><a href="#SaveFile">保存文件</a></div></td>
+  <td>[FileObj].<font class="a1">SaveAs FileName [, OverWrite]</font></td>
  </tr>
  <tr>
-  <td height="24">文件的拓展名</td>
-  <td>Obj.GetFile(n [, mode]).<font class="a1">FileExt</font></td>
+  <td height="24"><div align="right">收到表单的个数</div></td>
+  <td>[UploadObj].<font class="a1">FormCount</font></td>
  </tr>
  <tr>
-  <td height="24">文件的大小</td>
-  <td>Obj.GetFile(n [, mode]).<font class="a1">FileSize</font></td>
+  <td height="24"><div align="right"><a href="#GetByIndex">通过序列号获取某个普通表单</a></div></td>
+  <td>[UploadObj].<font class="a1">GetFormByIndex(n)</font></td>
  </tr>
  <tr>
-  <td height="24"><a href="#FileData">文件的数据</a></td>
-  <td>Obj.GetFile(n [, mode]).<font class="a1">FileData</font></td>
+  <td height="24"><div align="right">通过表单名称获取某个普通表单</div></td>
+  <td>[UploadObj].<font class="a1">GetFormByName(s)</font></td>
  </tr>
  <tr>
-  <td height="24"><a href="#SaveFile">保存文件</a></td>
-  <td>Obj.GetFile(n [, mode]).<font class="a1">SaveAs FileName [, OverWrite]</font></td>
+  <td height="24"><div align="right">表单的名称</div></td>
+  <td>[FormObj].<font class="a1">FormName</font></td>
  </tr>
  <tr>
-  <td height="24"><a href="#GetForm">获取某个普通表单</a></td>
-  <td>Obj.<font class="a1">GetForm(n [, mode])</font></td>
+  <td height="24"><div align="right">表单的内容</div></td>
+  <td>[FormObj].<font class="a1">FormValue</font></td>
  </tr>
  <tr>
-  <td height="24">表单的名称</td>
-  <td>Obj.GetForm(n [, mode]).<font class="a1">FormName</font></td>
+  <td height="24"><div align="right"><a href="#ErrorList">错误号</a></div></td>
+  <td>[UploadObj].<font class="a1">ErrorNumber</font></td>
  </tr>
  <tr>
-  <td height="24">表单的序列号</td>
-  <td>Obj.GetForm(n [, mode]).<font class="a1">FormIndex</font></td>
+  <td height="24"><div align="right"><a href="#ErrorList">错误来源</a></div></td>
+  <td>[UploadObj].<font class="a1">ErrorSource</font></td>
  </tr>
  <tr>
-  <td height="24">表单的内容</td>
-  <td>Obj.GetForm(n [, mode]).<font class="a1">FormValue</font></td>
+  <td height="24"><div align="right"><a href="#ErrorList">错误描述</a></div></td>
+  <td>[UploadObj].<font class="a1">ErrorDescription</font></td>
  </tr>
 </table>
 
@@ -175,103 +176,44 @@ td{
  <tr>
   <td align=center>
 
-<table width="100%" border=1 cellpadding=0 cellspacing=0 bordercolor="#000099">
- <tr><td colspan=3 height="24">Obj.<font class="a1">GetUpload Data [, MaxSize[, FileTypeLimit]]</font></td></tr>
- <tr>
-  <td width="16%" height="24">Data</td>
-  <td width="16%">数据</td>
-  <td width="84%">一般，该参数为：<strong>Request.BinaryRead(Request.TotalBytes)</strong></td>
+<table width="100%" border=1 cellpadding=6 cellspacing=0 bordercolor="#000099">
+ <tr><td colspan=3 height="24">[UploadObj].<font class="a1">GetUpload Data [, MaxSize[, FileTypeLimit]]</font></td>
  </tr>
  <tr>
-  <td height="24">MaxSize</td>
-  <td width="16%">数据最大限制</td>
+  <td width="16%" height="24"><div align="right">Data</div></td>
+  <td width="16%"><div align="center">数据</div></td>
+  <td width="84%">一般，该参数为：<font class="a1">Request.BinaryRead(Request.TotalBytes)</font></td>
+ </tr>
+ <tr>
+  <td height="24"><div align="right">MaxSize</div></td>
+  <td width="16%"><div align="center">数据最大限制</div></td>
   <td><p>可选参数，必须大于256 byte，单位有byte、KB、MB、GB。没有单位时，默认为byte<br>
-例如：<strong>"5MB"</strong>或<strong>5*1024^2</strong>(byte)
+例如：<font class="a1">"5MB"</font>或<font class="a1">5*1024^2</font>(byte)
    </p>  </td>
  </tr>
  <tr>
-  <td height="24">FileTypeLimit</td>
-  <td width="16%">文件类型限制</td>
-  <td>可选参数，可以用 | \ / ; 来分隔，例如：<strong>"gif|jpg;png/rar\zip"</strong></td>
+  <td height="24"><div align="right">FileTypeLimit</div></td>
+  <td width="16%"><div align="center">文件类型限制</div></td>
+  <td>可选参数，可以用 | \ / ; 来分隔，例如：<font class="a1">"gif|jpg;png/rar\zip"</font></td>
  </tr>
 </table>  </td>
  </tr>
+
  <tr><td height="5" bgcolor="0000CC"></td></tr>
  <tr>
-  <td height="28" bgcolor="#000099"><a name="ErrorList"><span class="STYLE2">错误列表</span></a></td>
+  <td height="28" bgcolor="#000099"><a name="GetByIndex"><span class="STYLE2">通过序列号获取某个文件或表单</span></a></td>
  </tr>
  <tr>
   <td align=center>
 
-<table width="100%" border=1 cellpadding=0 cellspacing=0 bordercolor="#000099">
+<table width="100%" border=1 cellpadding=6 cellspacing=0 bordercolor="#000099">
  <tr>
-  <td width="10%" height="20" align=center><strong>错误码</strong></td>
-  <td width="12%" align=center><strong>错误来源</strong></td>
-  <td width="78%" align=center><strong>错误描述</strong></td>
+  <td height="26" colspan=3>[UploadObj].<font class="a1">GetFileByIndex(n)</font><BR>[UploadObj].<font class="a1">GetFormByIndex(n)</font></td>
  </tr>
  <tr>
-  <td height="26" align=center>0</td>
-  <td>&nbsp;</td>
-  <td>无错误</td>
- </tr>
- <tr>
-  <td height="26" align=center>1</td>
-  <td rowspan=2><div align="center">GetFile()</div></td>
-  <td>文件个数为0，无法获取</td>
- </tr>
- <tr>
-  <td height="26" align=center>2</td>
-  <td>找不到此文件，无法获取</td>
- </tr>
- <tr>
-  <td height="26" align=center>3</td>
-  <td rowspan=2><div align="center">GetForm()</div></td>
-  <td>表单个数为0，无法获取</td>
- </tr>
- <tr>
-  <td height="26" align=center>4</td>
-  <td>找不到此表单，无法获取</td>
- </tr>
- <tr>
-  <td height="26" align=center>5</td>
-  <td rowspan=3><div align="center">GetUpload()</div></td>
-  <td>文件个数为0</td>
- </tr>
- <tr>
-  <td height="26" align=center>6</td>
-  <td>超过限定的字节</td>
- </tr>
- <tr>
-  <td height="26" align=center>7</td>
-  <td>存在限定之外的文件类型</td>
- </tr>
- <tr>
-  <td height="26" align=center>8</td>
-  <td><div align="center">SaveAs()</div></td>
-  <td>该文件已经存在，不可覆盖</td>
- </tr>
-</table>  </td>
- </tr>
- <tr><td height="5" bgcolor="0000CC"></td></tr>
- <tr>
-  <td height="28" bgcolor="#000099"><a name="GetFile"><span class="STYLE2">获取某个文件</span></a></td>
- </tr>
- <tr>
-  <td align=center>
-
-<table width="100%" border=1 cellpadding=0 cellspacing=0 bordercolor="#000099">
- <tr>
-  <td height="26" colspan=3>Obj.<font class="a1">GetFile(n [, mode])</font></td>
- </tr>
- <tr>
-  <td width="5%" height="26">n</td>
-  <td width="17%">表单名称或序列号</td>
-  <td width="78%">例如：<strong>Obj.GetFile("a")</strong> 或 <strong>Obj.GetFile(0,1)</strong></td>
- </tr>
- <tr>
-  <td height="26">mode</td>
-  <td>获取方式</td>
-  <td>默认mode=0，可省略，以表单名称获取；mode=1时，以序列号获取。</td>
+  <td width="5%" height="26"><div align="center">n</div></td>
+  <td width="17%"><div align="center">文件或表单序列号</div></td>
+  <td width="78%">从1到文件或表单数量值之间任意一个整数。<BR>例如：<BR><font class="a1">Set FileObj=UploadObj.GetFileByIndex(1)</font><BR><font class="a1">Set FormObj=UploadObj.GetFormByIndex(1)</font></td>
  </tr>
 </table>
   </td>
@@ -283,15 +225,15 @@ td{
  <tr>
   <td align=center>
 
-<table width="100%" border=1 cellpadding=0 cellspacing=0 bordercolor="#000099">
+<table width="100%" border=1 cellpadding=6 cellspacing=0 bordercolor="#000099">
  <tr>
-  <td height="26">Obj.GetFile(n [, mode]).<font class="a1">FileData</font></td>
+  <td height="26">[FileObj].<font class="a1">FileData</font></td>
  </tr>
  <tr>
-  <td height="26">'写入客户端浏览器<BR>Response.ContentType = Obj.GetFile("a").ContentType<BR>Response.BinaryWrite Obj.GetFile("a").FileData</td>
+  <td height="26">'写入客户端浏览器<BR>Response.ContentType = Obj.GetFileByName("a").ContentType<BR>Response.BinaryWrite Obj.GetFileByName("a").FileData</td>
  </tr>
  <tr>
-  <td height="26">'存入数据库<BR>rs("FileData").AppendChunk Obj.GetFile("a").FileData</td>
+  <td height="26">'存入数据库<BR>rs("FileData").AppendChunk Obj.GetFileByIndex(1).FileData</td>
  </tr>
 </table>
 
@@ -304,46 +246,71 @@ td{
  <tr>
   <td align=center>
 
-<table width="100%" border=1 cellpadding=0 cellspacing=0 bordercolor="#000099">
+<table width="100%" border=1 cellpadding=6 cellspacing=0 bordercolor="#000099">
  <tr>
-  <td height="26" colspan=2>Obj.GetFile(n [, mode]).<font class="a1">SaveAs FileName [, OverWrite]</font></td>
+  <td height="26" colspan=2>[FileObj].<font class="a1">SaveAs FileName [, OverWrite]</font></td>
  </tr>
  <tr>
-  <td width="10%" height="26">FileName</td>
+  <td width="10%" height="26"><div align="right">FileName</div></td>
   <td width="90%">保存的地址，当地址中包含不存在的文件夹时，自动创建</td>
  </tr>
  <tr>
-  <td height="26">OverWrite</td>
-  <td>可选参数，文件存在，且=True时覆盖</td>
+  <td height="26"><div align="right">OverWrite</div></td>
+  <td>可选参数，当文件存在时，OverWrite=True时覆盖，否则会自动报错</td>
  </tr>
 </table>
   </td>
  </tr>
  <tr><td height="5" bgcolor="0000CC"></td></tr>
  <tr>
-  <td height="28" bgcolor="#000099"><a name="GetForm"><span class="STYLE2">获取某个普通表单</span></a></td>
+  <td height="28" bgcolor="#000099"><a name="ErrorList"><span class="STYLE2">错误列表</span></a></td>
  </tr>
  <tr>
   <td align=center>
 
-<table width="100%" border=1 cellpadding=0 cellspacing=0 bordercolor="#000099">
+<table width="100%" border=1 cellpadding=6 cellspacing=0 bordercolor="#000099">
  <tr>
-  <td height="26" colspan=3>Obj.<font class="a1">GetForm(n [, mode])</font></td>
+  <td width="10%" height="20" align=center><strong>错误码</strong></td>
+  <td width="25%" align=center><strong>错误来源</strong></td>
+  <td width="65%" align=center><strong>错误描述</strong></td>
  </tr>
  <tr>
-  <td width="5%" height="26">n</td>
-  <td width="16%">表单名称或序列号</td>
-  <td width="79%">例如：<strong>Obj.GetForm("a")</strong> 或 <strong>Obj.GetForm(0,1)</strong></td>
+  <td height="26" align=center>0</td>
+  <td>&nbsp;</td>
+  <td>无错误</td>
  </tr>
  <tr>
-  <td height="26">mode</td>
-  <td>获取方式</td>
-  <td>默认mode=0，可省略，以表单名称获取；mode=1时，以序列号获取。</td>
+  <td height="26" align=center>1</td>
+  <td><div align="center">[UploadObj].<font class="a1">GetFileByName()</font></div></td>
+  <td>找不到此文件，无法获取（会自动报错，导致编译停止）</td>
+ </tr>
+ <tr>
+  <td height="26" align=center>2</td>
+  <td><div align="center">[UploadObj].<font class="a1">GetFormByName()</font></div></td>
+  <td>找不到此表单，无法获取（会自动报错，导致编译停止）</td>
+ </tr>
+ <tr>
+  <td height="26" align=center>3</td>
+  <td rowspan=3><div align="center">[UploadObj].<font class="a1">GetUpload()</font></div></td>
+  <td>文件个数为0（不会自动报错）</td>
+ </tr>
+ <tr>
+  <td height="26" align=center>4</td>
+  <td>超过限定的字节（不会自动报错）</td>
+ </tr>
+ <tr>
+  <td height="26" align=center>5</td>
+  <td>存在限定之外的文件类型（不会自动报错）</td>
+ </tr>
+ <tr>
+  <td height="26" align=center>6</td>
+  <td><div align="center">[FileObj].<font class="a1">SaveAs()</font></div></td>
+  <td>该文件已经存在（会自动报错，导致编译停止）</td>
  </tr>
 </table>  </td>
  </tr>
  <tr>
-  <td height="17" align=center bgcolor="#000099" class="STYLE1">(C)2007 Gu Zhiji Studio</td>
+  <td height="17" align=center bgcolor="#000099" class="STYLE1">(C)2008 Gu Zhiji Studio</td>
  </tr>
 </table>
 </body>

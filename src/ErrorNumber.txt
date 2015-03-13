@@ -1,11 +1,11 @@
 Error Number
-1:文件个数为0，无法获取    MyASPUploader.Upload::GetFile()
-2:找不到此文件，无法获取   MyASPUploader.Upload::GetFile()
-3:表单个数为0，无法获取    MyASPUploader.Upload::GetForm()
-4:找不到此表单，无法获取   MyASPUploader.Upload::GetForm()
-5:文件个数为0              MyASPUploader.Upload::GetUpload()
-6:超过限定的字节           MyASPUploader.Upload::GetUpload()
-7:存在限定之外的文件类型   MyASPUploader.Upload::GetUpload()
-8:该文件已经存在，不可覆盖 MyASPUploader.clsFile::SaveAs()
+
+n        d                stop            source
+1:找不到此文件，无法获取   yes  MyASPUploader.Upload::GetFileByName()
+2:找不到此表单，无法获取   yes  MyASPUploader.Upload::GetFormByName()
+3:文件个数为0              no   MyASPUploader.Upload::GetUpload()
+4:超过限定的字节           no   MyASPUploader.Upload::GetUpload()
+5:存在限定之外的文件类型   no   MyASPUploader.Upload::GetUpload()
+6:该文件已经存在           yes  MyASPUploader.clsFile::SaveAs()
 
 MaxSize>256 byte
