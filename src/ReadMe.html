@@ -79,7 +79,7 @@ td{
   <td height="17" align=center bgcolor="#000099" class="STYLE1">(C)2008 Gu Zhiji Studio</td>
  </tr>
  <tr bordercolor="#666666" bgcolor="#0099FF">
-  <td height="50" bgcolor="#0099FF"><div align="center"><span class="title1">MyASPUploader</span> <span class="title2">Ver 1.3</span></div></td>
+  <td height="50" bgcolor="#0099FF"><div align="center"><span class="title1">MyASPUploader</span> <span class="title2">Ver 1.4</span></div></td>
  </tr>
  <tr><td height="5" bgcolor="0000CC"></td></tr>
  <tr>
@@ -131,7 +131,7 @@ td{
  </tr>
  <tr>
   <td height="24"><div align="right"><a href="#SaveFile">保存文件</a></div></td>
-  <td>[FileObj].<font class="a1">SaveAs FileName [, OverWrite]</font></td>
+  <td>[FileObj].<font class="a1">SaveAs DirName, FileName [, OverWrite]</font></td>
  </tr>
  <tr>
   <td height="24"><div align="right">收到表单的个数</div></td>
@@ -230,10 +230,10 @@ td{
   <td height="26">[FileObj].<font class="a1">FileData</font></td>
  </tr>
  <tr>
-  <td height="26">'写入客户端浏览器<BR>Response.ContentType = Obj.GetFileByName("a").ContentType<BR>Response.BinaryWrite Obj.GetFileByName("a").FileData</td>
+  <td height="26">写入客户端浏览器<BR><font class="a1">Response.ContentType = Obj.GetFileByName("a").ContentType<BR>Response.BinaryWrite Obj.GetFileByName("a").FileData</font></td>
  </tr>
  <tr>
-  <td height="26">'存入数据库<BR>rs("FileData").AppendChunk Obj.GetFileByIndex(1).FileData</td>
+  <td height="26">存入数据库<BR><font class="a1">rs("FileData").AppendChunk Obj.GetFileByIndex(1).FileData</font></td>
  </tr>
 </table>
 
@@ -248,15 +248,22 @@ td{
 
 <table width="100%" border=1 cellpadding=6 cellspacing=0 bordercolor="#000099">
  <tr>
-  <td height="26" colspan=2>[FileObj].<font class="a1">SaveAs FileName [, OverWrite]</font></td>
+  <td height="26" colspan=2>[FileObj].<font class="a1">SaveAs DirName, FileName [, OverWrite]</font></td>
+ </tr>
+ <tr>
+  <td width="10%" height="26"><div align="right">DirName</div></td>
+  <td width="90%">保存的本地文件夹地址，当地址中包含不存在的文件夹时，自动创建</td>
  </tr>
  <tr>
   <td width="10%" height="26"><div align="right">FileName</div></td>
-  <td width="90%">保存的地址，当地址中包含不存在的文件夹时，自动创建</td>
+  <td width="90%">保存文件的名称</td>
  </tr>
  <tr>
   <td height="26"><div align="right">OverWrite</div></td>
   <td>可选参数，当文件存在时，OverWrite=True时覆盖，否则会自动报错</td>
+ </tr>
+ <tr>
+  <td colspan=2>例如：<font class="a1">[FileObj].SaveAs "D:\www\xx\upload", "a.gif", True</font></td>
  </tr>
 </table>
   </td>
@@ -282,12 +289,12 @@ td{
  <tr>
   <td height="26" align=center>1</td>
   <td><div align="center">[UploadObj].<font class="a1">GetFileByName()</font></div></td>
-  <td>找不到此文件，无法获取（会自动报错，导致编译停止）</td>
+  <td>找不到此文件，无法获取（会自动报错，导致停止）</td>
  </tr>
  <tr>
   <td height="26" align=center>2</td>
   <td><div align="center">[UploadObj].<font class="a1">GetFormByName()</font></div></td>
-  <td>找不到此表单，无法获取（会自动报错，导致编译停止）</td>
+  <td>找不到此表单，无法获取（会自动报错，导致停止）</td>
  </tr>
  <tr>
   <td height="26" align=center>3</td>
@@ -304,8 +311,12 @@ td{
  </tr>
  <tr>
   <td height="26" align=center>6</td>
-  <td><div align="center">[FileObj].<font class="a1">SaveAs()</font></div></td>
-  <td>该文件已经存在（会自动报错，导致编译停止）</td>
+  <td rowspan=2><div align="center">[FileObj].<font class="a1">SaveAs()</font></div></td>
+  <td>该文件已经存在（会自动报错，导致停止）</td>
+ </tr>
+ <tr>
+  <td height="26" align=center>7</td>
+  <td>非法的文件名（会自动报错，导致停止）</td>
  </tr>
 </table>  </td>
  </tr>

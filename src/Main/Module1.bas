@@ -3,13 +3,7 @@ Public FileArray() As clsFile
 Public FormArray() As clsForm
 Public intFileCount As Integer
 Public intFormCount As Integer
-'Public file_Names As Collection
-'Public file_Paths As Collection
-'Public file_Types As Collection
-'Public file_Sizes As Collection
-'Public form_Names As Collection
-'Public form_Values As Collection
-'Public file_data As Variant
+
 Public error_Number As Integer
 Public error_Description As String
 Public error_Source As String
@@ -46,17 +40,26 @@ Public Sub MakeDirs(ByVal strPathName As String)
  End If
 End Sub
 
-Public Sub WriteData(ByVal fData, ByVal fName As String)
- Dim fID As Integer
- Dim p As Long, l As Long
- l = LenB(fData)
- fID = FreeFile
- Open fName For Binary As fID
-  For p = 1 To l
-   Put fID, , AscB(MidB(fData, p, 1))
-  Next
- Close fID
-End Sub
+'Public Sub WriteData(ByVal fData, ByVal fName As String)
+'
+'End Sub
+
+Public Function CheckFileName(ByRef strDirName, ByRef strFileName) As String
+ On Error Resume Next
+ CheckFileName = ""
+ strDirName = Replace(CStr(Trim(strDirName)), "/", "\")
+ strFileName = CStr(Trim(strFileName))
+ If Len(strDirName) < 3 Or strFileName = "" Then
+  CheckFileName = "w"
+ Else
+  If Right(strDirName, 1) <> "\" Then strDirName = strDirName & "\"
+  If Dir(strDirName & strFileName, vbNormal + vbReadOnly + vbHidden + vbSystem) <> "" Then CheckFileName = "e"
+  If Err Then
+   Err.Clear
+   CheckFileName = "w"
+  End If
+ End If
+End Function
 
 Public Function ConvertToByte(strSize As String) As Long
  Dim a As String

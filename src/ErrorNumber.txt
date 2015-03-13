@@ -7,5 +7,6 @@ n        d                stop            source
 4:超过限定的字节           no   MyASPUploader.Upload::GetUpload()
 5:存在限定之外的文件类型   no   MyASPUploader.Upload::GetUpload()
 6:该文件已经存在           yes  MyASPUploader.clsFile::SaveAs()
+7:非法的文件名             yes  MyASPUploader.clsFile::SaveAs()
 
 MaxSize>256 byte
